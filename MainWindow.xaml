@@ -1,0 +1,76 @@
+<Window x:Class="TiendaApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:vm="clr-namespace:TiendaApp.ViewModels"
+        xmlns:views="clr-namespace:TiendaApp.Views"
+        Title="Mi Tienda" Height="740" Width="1250" MinHeight="620" MinWidth="1050"
+        Background="{DynamicResource MaterialDesignPaper}"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontSize="14"
+        FontFamily="Segoe UI"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.DataContext>
+        <vm:MainViewModel/>
+    </Window.DataContext>
+
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type vm:VentasViewModel}">
+            <views:VentasView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ProductosViewModel}">
+            <views:ProductosView/>
+        </DataTemplate>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="230"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Menú lateral -->
+        <Border>
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Color="#6A1B9A" Offset="0"/>
+                    <GradientStop Color="#311B92" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Top" Margin="20,30,20,30">
+                    <materialDesign:PackIcon Kind="Store" Width="44" Height="44" Foreground="#FFC107"/>
+                    <TextBlock Text="Mi Tienda" FontSize="24" FontWeight="Bold" Foreground="White" Margin="0,8,0,0"/>
+                    <TextBlock Text="Punto de venta" Foreground="#CCFFFFFF" FontSize="13"/>
+                </StackPanel>
+
+                <StackPanel Margin="10,0">
+                    <Button Command="{Binding IrCobrarCommand}" Height="50" Margin="0,0,0,6"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Foreground="White" HorizontalContentAlignment="Left"
+                            materialDesign:ButtonAssist.CornerRadius="12">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="CashRegister" Width="24" Height="24"/>
+                            <TextBlock Text="Cobrar" Margin="14,0,0,0" FontSize="16" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button Command="{Binding IrProductosCommand}" Height="50"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Foreground="White" HorizontalContentAlignment="Left"
+                            materialDesign:ButtonAssist.CornerRadius="12">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="PackageVariantClosed" Width="24" Height="24"/>
+                            <TextBlock Text="Productos" Margin="14,0,0,0" FontSize="16" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <!-- Contenido -->
+        <ContentControl Grid.Column="1" Content="{Binding Actual}"/>
+    </Grid>
+</Window>
